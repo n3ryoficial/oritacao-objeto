@@ -54,20 +54,42 @@ int getIdade(struct Pessoa* pessoa) {
 const char* getProfissao(struct Pessoa* pessoa) {
     return pessoa->profissao;
 }
-
+// como ativar os novos cadrastros 
 int main() {
-    struct Pessoa* Fabio;
-    Fabio = nova_Pessoa();
-    setNome(Fabio, "Fabio");
-    setIdade(Fabio, 30);
-    setProfissao(Fabio, "Programador");
+    int numPessoas, idade;
+    char nome[50], profissao[50];
+    printf("Quantas pessoas deseja cadrastar? ");
+    scanf("%d",&numPessoas);
 
-    printf("meu nome: %s\n", getNome(Fabio));
-    printf("minha idade: %d\n", getIdade(Fabio));
-    printf("minha profissão: %s\n", getProfissao(Fabio));
+    struct Pessoa* pessoas[numPessoas];
 
-    // Importante liberar a memória alocada
-    free(Fabio);
+    for(int i = 0; i < numPessoas; i++) {
+        pessoas[i] = nova_Pessoa();
+
+        printf("\nDigite o nome da pessoa %d: ", i + 1);
+        scanf("%s", nome);
+        setNome(pessoas[i], nome);
+
+        printf("Digite a idade da pessoa %d: ", i + 1);
+        scanf("%d", &idade);
+        setIdade(pessoas[i], idade);
+
+        printf("Digite a profissão da pessoa %d: ", i + 1);
+        scanf("%s", profissao);
+        setProfissao(pessoas[i], profissao);
+    }
+
+    printf("\nDados das pessoas cadastradas:\n");
+    for(int i = 0; i < numPessoas; i++) {
+        printf("\nPessoa %d:\n", i + 1);
+        printf("Nome: %s\n", getNome(pessoas[i]));
+        printf("Idade: %d\n", getIdade(pessoas[i]));
+        printf("Profissão: %s\n", getProfissao(pessoas[i]));
+
+        // Liberar memória alocada para cada pessoa
+        free(pessoas[i]);
+    }
 
     return 0;
+    
 }
